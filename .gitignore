@@ -361,3 +361,12 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Project specific
+*.db
+*.zip
+
+# Uploaded files
+wwwroot/uploads/teachers/*
+wwwroot/uploads/students/*
+wwwroot/uploads/docs/*
