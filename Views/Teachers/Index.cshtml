@@ -1,0 +1,109 @@
+﻿@model IEnumerable<RSWEB.Models.Teacher>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" name="firstName" class="form-control"
+                   placeholder="First name..."
+                   value="@(ViewData["FirstNameFilter"] ?? "")" />
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" name="lastName" class="form-control"
+                   placeholder="Last name..."
+                   value="@(ViewData["LastNameFilter"] ?? "")" />
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" name="degree" class="form-control"
+                   placeholder="Degree..."
+                   value="@(ViewData["DegreeFilter"] ?? "")" />
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" name="academicRank" class="form-control"
+                   placeholder="Academic rank..."
+                   value="@(ViewData["AcademicRankFilter"] ?? "")" />
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+        <div class="col-md-2">
+            <a asp-action="Index" class="btn btn-outline-secondary w-100">Clear</a>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Degree)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AcademicRank)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfficeNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HireDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Degree)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AcademicRank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfficeNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HireDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-controller="Courses" asp-action="ByTeacher" asp-route-teacherId="@item.Id"
+                       class="btn btn-sm btn-outline-primary">
+                        Courses
+                    </a>
+
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<RSWEB.Models.Course>
+
+<h2>Courses by Teacher: @ViewData["TeacherName"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Semester</th>
+            <th>Programme</th>
+            <th>First Teacher</th>
+            <th>Second Teacher</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Semester</td>
+                <td>@item.Programme</td>
+                <td>@(item.FirstTeacher != null ? item.FirstTeacher.FirstName + " " + item.FirstTeacher.LastName : "-")</td>
+                <td>@(item.SecondTeacher != null ? item.SecondTeacher.FirstName + " " + item.SecondTeacher.LastName : "-")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Teachers" asp-action="Index">Back to Teachers</a>
