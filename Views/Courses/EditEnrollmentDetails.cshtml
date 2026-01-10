@@ -1,0 +1,61 @@
+﻿@model RSWEB.ViewModels.CourseEnrollmentDetailsVM
+
+<h2>Edit enrollment details</h2>
+<h4>@Model.CourseTitle</h4>
+
+<form asp-action="EditEnrollmentDetails" asp-route-id="@Model.CourseId" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="CourseId" />
+    <input type="hidden" asp-for="CourseTitle" />
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Student</th>
+                <th>Semester</th>
+                <th>Year</th>
+                <th>Grade</th>
+                <th>Exam</th>
+                <th>Seminar</th>
+                <th>Project</th>
+                <th>Additional</th>
+                <th>FinishDate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Enrollments.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Model.Enrollments[i].StudentIndex
+                        <input type="hidden" asp-for="Enrollments[i].EnrollmentId" />
+                        <input type="hidden" asp-for="Enrollments[i].StudentId" />
+                        <input type="hidden" asp-for="Enrollments[i].StudentIndex" />
+                        <input type="hidden" asp-for="Enrollments[i].FullName" />
+                    </td>
+
+                    <td>@Model.Enrollments[i].FullName</td>
+
+                    <td><input class="form-control" style="width:120px" asp-for="Enrollments[i].Semester" /></td>
+                    <td><input class="form-control" style="width:90px" asp-for="Enrollments[i].Year" /></td>
+                    <td><input class="form-control" style="width:70px" asp-for="Enrollments[i].Grade" /></td>
+
+                    <td><input class="form-control" style="width:80px" asp-for="Enrollments[i].ExamPoints" /></td>
+                    <td><input class="form-control" style="width:90px" asp-for="Enrollments[i].SeminarPoints" /></td>
+                    <td><input class="form-control" style="width:90px" asp-for="Enrollments[i].ProjectPoints" /></td>
+                    <td><input class="form-control" style="width:90px" asp-for="Enrollments[i].AdditionalPoints" /></td>
+
+                    <td><input type="date" class="form-control" style="width:160px" asp-for="Enrollments[i].FinishDate" /></td>
+
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="ManageStudents" asp-route-id="@Model.CourseId" class="btn btn-secondary">Back</a>
+</form>
+

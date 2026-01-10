@@ -35,6 +35,12 @@
     </table>
 
     <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="EditEnrollmentDetails"
+       asp-route-id="@Model.CourseId"
+       class="btn btn-outline-primary">
+        Edit enrollment details
+    </a>
+
     <a asp-action="Details" asp-route-id="@Model.CourseId" class="btn btn-secondary">
         Back
     </a>

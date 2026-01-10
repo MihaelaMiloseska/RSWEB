@@ -1,8 +1,79 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero section -->
+<div class="p-5 mb-4 text-white rounded-3"
+     style="background: linear-gradient(135deg, #0d6efd, #6610f2);">
+    <div class="container-fluid py-3">
+        <h1 class="display-5 fw-bold">RSWEB</h1>
+        <p class="fs-5 mb-0">University management system</p>
+    </div>
+</div>
+
+<!-- Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow h-100 border-0">
+            <div class="card-body">
+                <h5 class="card-title text-primary">Courses</h5>
+                <p class="card-text">Create, edit and assign teachers.</p>
+                <a class="btn btn-outline-primary" asp-controller="Courses" asp-action="Index">
+                    Open
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow h-100 border-0">
+            <div class="card-body">
+                <h5 class="card-title text-success">Students</h5>
+                <p class="card-text">Manage students and profiles.</p>
+                <a class="btn btn-outline-success" asp-controller="Students" asp-action="Index">
+                    Open
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow h-100 border-0">
+            <div class="card-body">
+                <h5 class="card-title text-warning">Teachers</h5>
+                <p class="card-text">Academic rank and education filters.</p>
+                <a class="btn btn-outline-warning" asp-controller="Teachers" asp-action="Index">
+                    Open
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow h-100 border-0">
+            <div class="card-body">
+                <h5 class="card-title text-danger">Enrollments</h5>
+                <p class="card-text">Grades, points and finish date.</p>
+                <a class="btn btn-outline-danger" asp-controller="Enrollments" asp-action="Index">
+                    Open
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tips -->
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="alert alert-primary shadow-sm mb-0">
+            <strong>Tip:</strong> Manage student enrollments from
+            <strong>Courses → Manage Students</strong>.
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="alert alert-secondary shadow-sm mb-0">
+            <strong>Tip:</strong> Edit points and grades from
+            <strong>Courses → Edit enrollment details</strong>.
+        </div>
+    </div>
 </div>
