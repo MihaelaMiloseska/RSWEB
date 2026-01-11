@@ -1,0 +1,27 @@
+﻿@model IEnumerable<RSWEB.Models.Course>
+
+<h2>My Courses</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Semester</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Title</td>
+                <td>@c.Semester</td>
+                <td>
+                    <a asp-action="CourseStudents" asp-route-id="@c.Id" class="btn btn-sm btn-primary">
+                        Students
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

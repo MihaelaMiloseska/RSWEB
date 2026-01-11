@@ -7,7 +7,14 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Courses</h1>
+
+        <a asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-lg me-1"></i> Create New
+        </a>
+    </div>
+
 </p>
 
 <form asp-action="Index" method="get" class="mb-3">
@@ -43,73 +50,65 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Credits)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Semester)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Programme)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EducationLevel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstTeacher)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SecondTeacher)
-            </th>
-            <th></th>
+            <th>@Html.DisplayNameFor(model => model.Title)</th>
+            <th>@Html.DisplayNameFor(model => model.Credits)</th>
+            <th>@Html.DisplayNameFor(model => model.Semester)</th>
+            <th>@Html.DisplayNameFor(model => model.Programme)</th>
+            <th>@Html.DisplayNameFor(model => model.EducationLevel)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstTeacher)</th>
+            <th>@Html.DisplayNameFor(model => model.SecondTeacher)</th>
+            <th>Actions</th>
         </tr>
     </thead>
+
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Credits)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Semester)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Programme)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EducationLevel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstTeacher.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SecondTeacher.FirstName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.Credits)</td>
+                <td>@Html.DisplayFor(modelItem => item.Semester)</td>
+                <td>@Html.DisplayFor(modelItem => item.Programme)</td>
+                <td>@Html.DisplayFor(modelItem => item.EducationLevel)</td>
 
-                <a asp-action="ManageStudents"
-                   asp-route-id="@item.Id"
-                      class="btn btn-sm btn-outline-primary">
-                      Manage Students
-                </a>
+                <td>
+                    @(item.FirstTeacher != null ? item.FirstTeacher.FirstName : "")
+                </td>
+                <td>
+                    @(item.SecondTeacher != null ? item.SecondTeacher.FirstName : "")
+                </td>
 
-                    <a asp-controller="Students" asp-action="ByCourse" asp-route-courseId="@item.Id"
-                       class="btn btn-sm btn-outline-primary">
-                        Students
-                    </a>
+                <td class="text-nowrap">
+                    <div class="d-flex gap-2 flex-wrap">
+                        <div class="btn-group" role="group">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </div>
 
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Enrollments"
+                               asp-action="Manage"
+                               asp-route-courseId="@item.Id"
+                               class="btn btn-sm btn-outline-primary">
+                                Manage Enrollments
+                            </a>
 
-            </td>
-        </tr>
-}
+                            <a asp-controller="Enrollments"
+                               asp-action="Deactivate"
+                               asp-route-courseId="@item.Id"
+                               asp-route-year="@DateTime.Now.Year"
+                               asp-route-semester="Winter"
+                               class="btn btn-sm btn-outline-danger">
+                                Deactivate
+                            </a>
+                        }
+                    </div>
+                </td>
+
+             
+            </tr>
+        }
     </tbody>
 </table>

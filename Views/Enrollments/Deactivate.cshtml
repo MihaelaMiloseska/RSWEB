@@ -1,0 +1,41 @@
+﻿@model RSWEB.ViewModels.DeactivateEnrollmentsVM
+
+<h2>Deactivate students for @Model.CourseTitle (@Model.Year - @Model.Semester)</h2>
+
+<form asp-action="Deactivate" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="CourseId" />
+    <input type="hidden" asp-for="Year" />
+    <input type="hidden" asp-for="Semester" />
+
+    <div class="mb-3">
+        <label class="form-label">Finish Date</label>
+        <input asp-for="FinishDate" type="date" class="form-control w-auto" />
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Deactivate</th>
+                <th>Student</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.ActiveEnrollments.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input asp-for="ActiveEnrollments[i].Selected" />
+                        <input type="hidden" asp-for="ActiveEnrollments[i].StudentId" />
+                        <input type="hidden" asp-for="ActiveEnrollments[i].Display" />
+                    </td>
+                    <td>@Model.ActiveEnrollments[i].Display</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button class="btn btn-danger">Deactivate Selected</button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</form>

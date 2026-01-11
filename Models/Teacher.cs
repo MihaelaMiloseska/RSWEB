@@ -29,6 +29,8 @@ namespace RSWEB.Models
 
         public string? PhotoPath { get; set; }//photo path 
 
+        public string? Email { get; set; }
+
 
         // Navigation
         public ICollection<Course> FirstCourses { get; set; } = new List<Course>();

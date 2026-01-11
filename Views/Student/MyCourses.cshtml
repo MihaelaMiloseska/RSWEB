@@ -1,0 +1,68 @@
+﻿@model IEnumerable<RSWEB.Models.Enrollment>
+
+@{
+    ViewData["Title"] = "My Courses";
+}
+
+<h2>My Courses</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Course</th>
+            <th>Year</th>
+            <th>Semester</th>
+            <th>Status</th>
+            <th>Total Points</th>
+            <th>Grade</th>
+            <th>Seminar</th>
+            <th>Project</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var e in Model)
+        {
+            var total = (e.ExamPoints ?? 0) + (e.SeminarPoints ?? 0) + (e.ProjectPoints ?? 0) + (e.AdditionalPoints ?? 0);
+            var status = e.FinishDate == null ? "Active" : "Finished";
+
+            <tr>
+                <td>@e.Course?.Title</td>
+                <td>@e.Year</td>
+                <td>@e.Semester</td>
+                <td>@status</td>
+                <td>@total</td>
+                <td>@e.Grade</td>
+
+                <td>
+                    @if (!string.IsNullOrEmpty(e.SeminarUrl))
+                    {
+                        <a href="@e.SeminarUrl" target="_blank">Open</a>
+                    }
+                </td>
+
+                <td>
+                    @if (!string.IsNullOrEmpty(e.ProjectUrl))
+                    {
+                        <a href="@e.ProjectUrl" target="_blank">GitHub</a>
+                    }
+                </td>
+
+                <td>
+
+                    @if (e.FinishDate == null)
+                    {
+                        <a asp-action="EditEnrollment" asp-route-id="@e.Id" class="btn btn-sm btn-primary">Edit</a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Finished</span>
+                    }
+
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

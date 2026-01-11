@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RSWEB.Data;
 using RSWEB.Models;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using Microsoft.AspNetCore.Http;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RSWEB.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class TeachersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -76,7 +78,7 @@ namespace RSWEB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Degree,AcademicRank,OfficeNumber,HireDate")] Teacher teacher, IFormFile? photo)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Degree,AcademicRank,OfficeNumber,HireDate,Email")] Teacher teacher, IFormFile? photo)
         {
             if (ModelState.IsValid)
             {
@@ -124,7 +126,7 @@ namespace RSWEB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Degree,AcademicRank,OfficeNumber,HireDate,PhotoPath")] Teacher teacher, IFormFile? photo)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Degree,AcademicRank,OfficeNumber,HireDate,PhotoPath,Email")] Teacher teacher, IFormFile? photo)
         {
             if (id != teacher.Id)
             {

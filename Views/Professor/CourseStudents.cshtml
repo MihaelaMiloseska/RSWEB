@@ -1,0 +1,79 @@
+﻿@model RSWEB.Controllers.ProfessorCourseStudentsVM
+
+<h2>@Model.Course.Title (@Model.Year)</h2>
+
+<form method="get" class="mb-3">
+    <input type="hidden" name="id" value="@Model.Course.Id" />
+
+    <label>Year:</label>
+    <select name="year" class="form-select w-auto d-inline" onchange="this.form.submit()">
+        @foreach (var y in Model.AvailableYears)
+        {
+            <option value="@y" selected="@(y == Model.Year)">@y</option>
+        }
+    </select>
+</form>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Index</th>
+            <th>Name</th>
+            <th>Exam</th>
+            <th>Seminar</th>
+            <th>Project</th>
+            <th>Additional</th>
+            <th>Grade</th>
+            <th>Finish Date</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var e in Model.Enrollments)
+        {
+            if (e.FinishDate == null)
+            {
+                <tr>
+                    <form asp-action="UpdateEnrollment" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="EnrollmentId" value="@e.Id" />
+
+                    <td>@e.Student.StudentId</td>
+                    <td>@e.Student.FirstName @e.Student.LastName</td>
+
+                    <td><input name="ExamPoints" value="@e.ExamPoints" class="form-control" /></td>
+                    <td><input name="SeminarPoints" value="@e.SeminarPoints" class="form-control" /></td>
+                    <td><input name="ProjectPoints" value="@e.ProjectPoints" class="form-control" /></td>
+                    <td><input name="AdditionalPoints" value="@e.AdditionalPoints" class="form-control" /></td>
+
+                    <td><input name="Grade" value="@e.Grade" class="form-control" /></td>
+
+                    <td>
+                        <input name="FinishDate" type="date" class="form-control"
+                               value="@(e.FinishDate.HasValue? e.FinishDate.Value.ToString("yyyy-MM-dd") : "")" />
+                    </td>
+
+                    <td>
+                        <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                    </td>
+                    </form>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>@e.Student.StudentId</td>
+                    <td>@e.Student.FirstName @e.Student.LastName</td>
+                    <td>@e.ExamPoints</td>
+                    <td>@e.SeminarPoints</td>
+                    <td>@e.ProjectPoints</td>
+                    <td>@e.AdditionalPoints</td>
+                    <td>@e.Grade</td>
+                    <td>@e.FinishDate?.ToShortDateString()</td>
+                    <td>Finished</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
