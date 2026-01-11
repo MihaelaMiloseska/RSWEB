@@ -1,0 +1,41 @@
+﻿@model RSWEB.Models.Enrollment
+
+@{
+    ViewData["Title"] = "Edit Enrollment";
+}
+
+<h2>Edit URLs - @Model.Course?.Title</h2>
+
+<div class="mb-3">
+    <div><b>Year:</b> @Model.Year</div>
+    <div><b>Semester:</b> @Model.Semester</div>
+    <div><b>Grade:</b> @Model.Grade</div>
+    <div><b>FinishDate:</b> @(Model.FinishDate?.ToShortDateString() ?? "Active")</div>
+</div>
+
+<form asp-action="EditEnrollment"
+      asp-route-id="@Model.Id"
+      method="post"
+      enctype="multipart/form-data">
+
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label class="form-label">Project URL (GitHub)</label>
+        <input name="ProjectUrl" value="@Model.ProjectUrl" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Seminar file (doc/docx/pdf)</label>
+        <input type="file" name="seminarFile" class="form-control" />
+        @if (!string.IsNullOrEmpty(Model.SeminarUrl))
+        {
+            <div class="mt-2">
+                Current: <a href="@Model.SeminarUrl" target="_blank">@Model.SeminarUrl</a>
+            </div>
+        }
+    </div>
+
+    <button class="btn btn-success">Save</button>
+    <a asp-action="MyCourses" class="btn btn-secondary">Back</a>
+</form>

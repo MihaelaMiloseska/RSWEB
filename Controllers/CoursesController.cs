@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RSWEB.Data;
 using RSWEB.Models;
 using RSWEB.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 
 namespace RSWEB.Controllers
 {
+    [Authorize(Roles = "Admin")]
+
     public class CoursesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -144,6 +148,84 @@ namespace RSWEB.Controllers
 
             return RedirectToAction(nameof(Details), new { id = vm.CourseId });
         }
+
+        public async Task<IActionResult> EditEnrollmentDetails(int id)
+        {
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+            if (course == null) return NotFound();
+
+            var enrollments = await _context.Enrollments
+                .Where(e => e.CourseId == id)
+                .Include(e => e.Student)
+                .ToListAsync();
+
+            var vm = new CourseEnrollmentDetailsVM
+            {
+                CourseId = course.Id,
+                CourseTitle = course.Title,
+                Enrollments = enrollments.Select(e => new CourseEnrollmentRowVM
+                {
+                    EnrollmentId = e.Id,
+                    StudentId = e.StudentId,
+                    StudentIndex = e.Student.StudentId,
+                    FullName = e.Student.FirstName + " " + e.Student.LastName,
+
+                    Semester = e.Semester,
+                    Year = e.Year,
+                    Grade = e.Grade,
+                    ExamPoints = e.ExamPoints,
+                    SeminarPoints = e.SeminarPoints,
+                    ProjectPoints = e.ProjectPoints,
+                    AdditionalPoints = e.AdditionalPoints,
+                    SeminarUrl = e.SeminarUrl,
+                    ProjectUrl = e.ProjectUrl,
+                    FinishDate = e.FinishDate
+                }).ToList()
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditEnrollmentDetails(
+        int id,
+        CourseEnrollmentDetailsVM vm)
+        {
+            if (id != vm.CourseId) return NotFound();
+
+            var enrollments = await _context.Enrollments
+                .Where(e => e.CourseId == id)
+                .ToDictionaryAsync(e => e.Id);
+
+            foreach (var row in vm.Enrollments)
+            {
+                if (!enrollments.TryGetValue(row.EnrollmentId, out var e))
+                    continue;
+
+                e.Semester = row.Semester;
+                e.Year = row.Year;
+                e.Grade = row.Grade;
+                e.ExamPoints = row.ExamPoints;
+                e.SeminarPoints = row.SeminarPoints;
+                e.ProjectPoints = row.ProjectPoints;
+                e.AdditionalPoints = row.AdditionalPoints;
+                e.SeminarUrl = row.SeminarUrl;
+                e.ProjectUrl = row.ProjectUrl;
+                e.FinishDate = row.FinishDate;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = vm.CourseId });
+        }
+
+
+
+
+
+
+
 
 
 
@@ -281,4 +363,5 @@ namespace RSWEB.Controllers
             return _context.Courses.Any(e => e.Id == id);
         }
     }
+
 }

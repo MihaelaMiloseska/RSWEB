@@ -7,7 +7,13 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Students</h1>
+
+        <a asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-lg me-1"></i> Create New
+        </a>
+    </div>
 </p>
 
 <form asp-action="Index" method="get" class="mb-3">
@@ -92,17 +98,23 @@
             <td>
                 @Html.DisplayFor(modelItem => item.HireDate)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    <a asp-controller="Courses" asp-action="ByTeacher" asp-route-teacherId="@item.Id"
-                       class="btn btn-sm btn-outline-primary">
-                        Courses
+                <td class="text-end text-nowrap">
+                    <a asp-action="Edit" asp-route-id="@item.Id"
+                       class="btn btn-sm btn-outline-primary me-1">
+                        Edit
                     </a>
 
+                    <a asp-action="Details" asp-route-id="@item.Id"
+                       class="btn btn-sm btn-outline-secondary me-1">
+                        Details
+                    </a>
 
-            </td>
+                    <a asp-action="Delete" asp-route-id="@item.Id"
+                       class="btn btn-sm btn-outline-danger">
+                        Delete
+                    </a>
+                </td>
+
         </tr>
 }
     </tbody>
